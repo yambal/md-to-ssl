@@ -39,9 +39,9 @@ const theme: iThemes = {
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        soundLevel: '+15dB',
+        soundLevel: '+10dB',
         prosody: {
-          rate: '80%',
+          rate: '85%',
         }
       },
       break: '1s'
@@ -52,9 +52,9 @@ const theme: iThemes = {
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        soundLevel: '+12dB',
+        soundLevel: '+8dB',
         prosody: {
-          rate: '85%',
+          rate: '88%',
         }
       },
       break: '1s'
@@ -65,9 +65,9 @@ const theme: iThemes = {
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        soundLevel: '+9dB',
+        soundLevel: '+6dB',
         prosody: {
-          rate: '90%',
+          rate: '91%',
         }
       },
       break: '1s'
@@ -78,9 +78,9 @@ const theme: iThemes = {
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        soundLevel: '+6dB',
+        soundLevel: '+4dB',
         prosody: {
-          rate: '95%',
+          rate: '94%',
         }
       },
       break: '1s'
@@ -91,9 +91,9 @@ const theme: iThemes = {
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        soundLevel: '+3dB',
+        soundLevel: '+2dB',
         prosody: {
-          rate: '100%',
+          rate: '97%',
         }
       },
       break: '1s'
