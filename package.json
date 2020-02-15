@@ -4,7 +4,8 @@
   "description": "md-to-ssl",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -w"
+    "build": "tsc -w",
+    "test": "node test.js"
   },
   "author": "June YAMAMOTO <jy@yambal.net> (https://www.yambal.net/)",
   "license": "ISC",
