@@ -1,4 +1,5 @@
 import * as marked from 'marked'
+import format from 'xml-formatter';
 
 /**
  * https://marked.js.org/#/USING_PRO.md#renderer
@@ -59,7 +60,8 @@ export const mdToSsml = (markdown: string, title?: string, description?: string)
 <break time="2s" />
 <p>${description}</p><break time="2s" />\n`
 
-  return `<speak><prosody rate="125%">${openning}${parsed}</prosody></speak>`
+  var formattedXml = format(`<speak><prosody rate="125%">${openning}${parsed}</prosody></speak>`);
+  return formattedXml
 }
 
 // <audio src="https://actions.google.com/sounds/v1/animals/cat_purr_close.ogg"></audio>

@@ -6,8 +6,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var marked = __importStar(require("marked"));
+var xml_formatter_1 = __importDefault(require("xml-formatter"));
 /**
  * https://marked.js.org/#/USING_PRO.md#renderer
  * @param markdown https://marked.js.org/#/USING_PRO.md#renderer
@@ -50,6 +54,7 @@ exports.mdToSsml = function (markdown, title, description) {
     // @ts-ignore: Unreachable code error
     var parsed = marked(markdown, { renderer: renderer });
     var openning = "<emphasis level=\"strong\">\n  <prosody rate=\"slow\" pitch=\"+0.12st\">" + title + "</prosody>\n</emphasis>\n<break time=\"2s\" />\n<p>" + description + "</p><break time=\"2s\" />\n";
-    return "<speak><prosody rate=\"125%\">" + openning + parsed + "</prosody></speak>";
+    var formattedXml = xml_formatter_1.default("<speak><prosody rate=\"125%\">" + openning + parsed + "</prosody></speak>");
+    return formattedXml;
 };
 // <audio src="https://actions.google.com/sounds/v1/animals/cat_purr_close.ogg"></audio>

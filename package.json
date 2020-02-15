@@ -1,6 +1,6 @@
 {
   "name": "md-to-ssl",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,10 +9,12 @@
   "author": "June YAMAMOTO <jy@yambal.net> (https://www.yambal.net/)",
   "license": "ISC",
   "dependencies": {
-    "marked": "^0.8.0"
+    "marked": "^0.8.0",
+    "xml-formatter": "^1.2.0"
   },
   "devDependencies": {
     "@types/marked": "^0.7.2",
+    "@types/xml-formatter": "^1.1.0",
     "typescript": "^3.7.5"
   }
 }
