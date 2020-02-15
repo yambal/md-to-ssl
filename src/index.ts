@@ -1,6 +1,6 @@
 import marked from 'marked'
 import format from 'xml-formatter';
-import { selib, iSe } from './selib';
+import { getPer } from './theme'
 
 /**
  * https://marked.js.org/#/USING_PRO.md#renderer
@@ -12,24 +12,15 @@ import { selib, iSe } from './selib';
 export const mdToSsml = (markdown: string, title?: string, description?: string, options: any = {}) => {
 
   const { google: isGoogle = false } = options
-  const { se: { oListitem = {} } = {} } = options
-
-  const listitem = Object.assign(selib.listitem, oListitem)
-
-
   const renderer = new marked.Renderer()
 
   renderer.heading = (text: string, level: number, raw: string, slug: any) => {
-    // console.log(slug)
-    return `<par>
-  <media>
-    <emphasis level="strong">
-    ${text}
-    </emphasis>
-  </media>
-</par>
-<break time="1.5s" />
-`};
+    if (isGoogle) {
+      // @ts-ignore: Unreachable code error
+      return getPer(`h${level}`, text)
+    }
+    return `<emphasis level="strong">${text}</emphasis><break time="1.5s" />`
+  };
 
   // Blockquote
   renderer.blockquote = (text: string) => {
@@ -41,21 +32,22 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
 
   // hr
   renderer.hr= () => {
-    return `<break time="3s" />\n`}
+    if (isGoogle) {
+      return getPer('hr')
+    }
+    return `<break time="3s" />\n`
+  }
 
   // list
   renderer.list = (body: string, ordered: boolean, start: number) => {
     return `<p>${body}</p>`}
+
   renderer.listitem = (text: string) => {
     if (isGoogle) {
-      return `<par>
-  <media begin="${listitem.contentsBegin}">${text}</media>
-  <media>
-    <audio src="${listitem.url}" begin="${listitem.begin}" soundLevel="${listitem.soundLevel}"/>
-  </media>
-</par><break time="1s" />`
+      return getPer('listitem', text)
     }
-    return `<p>${text}</p>`}
+    return `<p>${text}</p>`
+  }
 
   // Strong
   renderer.strong = function (text: string) {

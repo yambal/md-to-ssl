@@ -1,11 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const listitemSe = {
-    url: 'https://yambal.github.io/md-to-ssl/se/list-item.mp3',
-    soundLevel: '+1dB',
-    begin: '0s',
-    contentsBegin: '0.75s'
-};
-exports.selib = {
-    listitem: listitemSe
+exports.SeLib = {
+    listItem: 'https://yambal.github.io/md-to-ssl/se/list-item.mp3',
+    hr: 'https://yambal.github.io/md-to-ssl/se/page1.mp3',
+    accent44_2: 'https://yambal.github.io/md-to-ssl/se/Accent44-2.mp3',
 };

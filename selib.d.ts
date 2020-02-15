@@ -1,9 +1,5 @@
-export interface iSe {
-    url: string;
-    soundLevel: string;
-    begin: string;
-    contentsBegin: string;
-}
-export declare const selib: {
-    listitem: iSe;
+export declare const SeLib: {
+    listItem: string;
+    hr: string;
+    accent44_2: string;
 };

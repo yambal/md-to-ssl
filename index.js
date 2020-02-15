@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const marked_1 = __importDefault(require("marked"));
 const xml_formatter_1 = __importDefault(require("xml-formatter"));
-const selib_1 = require("./selib");
+const theme_1 = require("./theme");
 /**
  * https://marked.js.org/#/USING_PRO.md#renderer
  * @param markdown https://marked.js.org/#/USING_PRO.md#renderer
@@ -14,20 +14,13 @@ const selib_1 = require("./selib");
  */
 exports.mdToSsml = (markdown, title, description, options = {}) => {
     const { google: isGoogle = false } = options;
-    const { se: { oListitem = {} } = {} } = options;
-    const listitem = Object.assign(selib_1.selib.listitem, oListitem);
     const renderer = new marked_1.default.Renderer();
     renderer.heading = (text, level, raw, slug) => {
-        // console.log(slug)
-        return `<par>
-  <media>
-    <emphasis level="strong">
-    ${text}
-    </emphasis>
-  </media>
-</par>
-<break time="1.5s" />
-`;
+        if (isGoogle) {
+            // @ts-ignore: Unreachable code error
+            return theme_1.getPer(`h${level}`, text);
+        }
+        return `<emphasis level="strong">${text}</emphasis><break time="1.5s" />`;
     };
     // Blockquote
     renderer.blockquote = (text) => {
@@ -39,6 +32,9 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     // hr
     renderer.hr = () => {
+        if (isGoogle) {
+            return theme_1.getPer('hr');
+        }
         return `<break time="3s" />\n`;
     };
     // list
@@ -47,12 +43,7 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     renderer.listitem = (text) => {
         if (isGoogle) {
-            return `<par>
-  <media begin="${listitem.contentsBegin}">${text}</media>
-  <media>
-    <audio src="${listitem.url}" begin="${listitem.begin}" soundLevel="${listitem.soundLevel}"/>
-  </media>
-</par><break time="1s" />`;
+            return theme_1.getPer('listitem', text);
         }
         return `<p>${text}</p>`;
     };
