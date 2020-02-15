@@ -9,12 +9,9 @@ interface iElementSeData {
   begin: string
   contentBegin?: string
   content?: {
-    emphasis: {
-      lebel: tEmphasisLebel
-    }
+    soundLevel: string
     prosody: {
-      volume: string // "dB"; or "silent", "x-soft", "soft", "medium", "loud", "x-loud", or "default"
-      range: string // % "x-low", "low", "medium", "high", "x-high", or "default"
+      rate: string // % "x-low", "low", "medium", "high", "x-high", or "default"
     }
   }
   break?: string
@@ -38,80 +35,65 @@ const theme: iThemes = {
   default: {
     h1: {
       url: SeLib.accent44_2,
-      soundLevel: '+12.5db',
+      soundLevel: '0db',
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        emphasis: {
-          lebel: 'strong'
-        },
+        soundLevel: '+12.5db',
         prosody: {
-          volume: '+12.5db',
-          range: '90%',
+          rate: '90%',
         }
       },
       break: '1s'
     },
     h2: {
       url: SeLib.accent44_2,
-      soundLevel: '+10db',
+      soundLevel: '0db',
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        emphasis: {
-          lebel: 'strong'
-        },
+        soundLevel: '+10db',
         prosody: {
-          volume: '+10db',
-          range: '92%',
+          rate: '92%',
         }
       },
       break: '1s'
     },
     h3: {
       url: SeLib.accent44_2,
-      soundLevel: '+7.5db',
+      soundLevel: '0db',
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        emphasis: {
-          lebel: 'strong'
-        },
+        soundLevel: '+7.5db',
         prosody: {
-          volume: '+7.5db',
-          range: '94%',
+          rate: '94%',
         }
       },
       break: '1s'
     },
     h4: {
       url: SeLib.accent44_2,
-      soundLevel: '+5db',
+      soundLevel: '0db',
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        emphasis: {
-          lebel: 'strong'
-        },
+        soundLevel: '+5db',
         prosody: {
-          volume: '+5db',
-          range: '96%',
+          rate: '96%',
         }
       },
       break: '1s'
     },
     h5: {
       url: SeLib.accent44_2,
-      soundLevel: '+2.5db',
+      soundLevel: '0db',
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        emphasis: {
-          lebel: 'strong'
-        },
+        soundLevel: '+2.5db',
         prosody: {
-          volume: '+2.5db',
-          range: '98%',
+          rate: '98%',
         }
       },
       break: '1s'
@@ -122,12 +104,9 @@ const theme: iThemes = {
       begin: '0s',
       contentBegin: '0.75s',
       content: {
-        emphasis: {
-          lebel: 'strong'
-        },
+        soundLevel: '0dB',
         prosody: {
-          volume: '0db',
-          range: '100%',
+          rate: '100%',
         }
       },
       break: '1s'
@@ -164,11 +143,11 @@ const getAudio = (elementName: tElementName, themeName?: tThemeName): iElementSe
 }
 
 // 韻律
-const prosody = (content: string, volume?: string, range?: string) => {
-  if (volume || range) {
+const prosody = (content: string, rate?: string, volume?: string) => {
+  if (volume || rate) {
     const fixVolume = volume ? ` volume="${volume}"` : ''
-    const fixRange = range ? ` range="${range}"` : ''
-    return `<prosody${fixVolume}${fixRange}>${content}</prosody>`
+    const fixrate = rate ? ` rate="${rate}"` : ''
+    return `<prosody${fixVolume}${fixrate}>${content}</prosody>`
   }
   return content
 }
@@ -193,10 +172,10 @@ export const getPer = (elementName: tElementName, content?: string, themeName?: 
 
       let contentSSML = content
       if (se.content) {
-        contentSSML = emphasis(content, se.content.emphasis.lebel)
-        contentSSML = prosody(contentSSML, se.content.prosody.volume, se.content.prosody.range)
+        // contentSSML = emphasis(content, se.content.emphasis.lebel)
+        contentSSML = prosody(contentSSML, se.content.prosody.rate)
       }
-      const contentMedia = `<media begin="${se.contentBegin}">${contentSSML}</media>`
+      const contentMedia = `<media begin="${se.contentBegin}" soundLevel="${se.content?.soundLevel}">${contentSSML}</media>`
 
       return `<par>${contentMedia}${soundMedia}</par>${afterbBreak}`
     }

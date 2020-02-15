@@ -62,7 +62,7 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
 </emphasis>
 <break time="2s" />
 <p>${description}</p><break time="2s" />\n`;
-    const xml = `<speak><prosody rate="125%">${openning}${parsed}</prosody></speak>`;
+    const xml = `<speak>${openning}${parsed}</speak>`;
     // console.log(xml)
     var formattedXml = xml_formatter_1.default(xml);
     return formattedXml;

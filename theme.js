@@ -5,80 +5,65 @@ const theme = {
     default: {
         h1: {
             url: selib_1.SeLib.accent44_2,
-            soundLevel: '+12.5db',
+            soundLevel: '0db',
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                emphasis: {
-                    lebel: 'strong'
-                },
+                soundLevel: '+12.5db',
                 prosody: {
-                    volume: '+12.5db',
-                    range: '90%',
+                    rate: '90%',
                 }
             },
             break: '1s'
         },
         h2: {
             url: selib_1.SeLib.accent44_2,
-            soundLevel: '+10db',
+            soundLevel: '0db',
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                emphasis: {
-                    lebel: 'strong'
-                },
+                soundLevel: '+10db',
                 prosody: {
-                    volume: '+10db',
-                    range: '92%',
+                    rate: '92%',
                 }
             },
             break: '1s'
         },
         h3: {
             url: selib_1.SeLib.accent44_2,
-            soundLevel: '+7.5db',
+            soundLevel: '0db',
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                emphasis: {
-                    lebel: 'strong'
-                },
+                soundLevel: '+7.5db',
                 prosody: {
-                    volume: '+7.5db',
-                    range: '94%',
+                    rate: '94%',
                 }
             },
             break: '1s'
         },
         h4: {
             url: selib_1.SeLib.accent44_2,
-            soundLevel: '+5db',
+            soundLevel: '0db',
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                emphasis: {
-                    lebel: 'strong'
-                },
+                soundLevel: '+5db',
                 prosody: {
-                    volume: '+5db',
-                    range: '96%',
+                    rate: '96%',
                 }
             },
             break: '1s'
         },
         h5: {
             url: selib_1.SeLib.accent44_2,
-            soundLevel: '+2.5db',
+            soundLevel: '0db',
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                emphasis: {
-                    lebel: 'strong'
-                },
+                soundLevel: '+2.5db',
                 prosody: {
-                    volume: '+2.5db',
-                    range: '98%',
+                    rate: '98%',
                 }
             },
             break: '1s'
@@ -89,12 +74,9 @@ const theme = {
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                emphasis: {
-                    lebel: 'strong'
-                },
+                soundLevel: '0dB',
                 prosody: {
-                    volume: '0db',
-                    range: '100%',
+                    rate: '100%',
                 }
             },
             break: '1s'
@@ -126,11 +108,11 @@ const getAudio = (elementName, themeName) => {
     return null;
 };
 // 韻律
-const prosody = (content, volume, range) => {
-    if (volume || range) {
+const prosody = (content, rate, volume) => {
+    if (volume || rate) {
         const fixVolume = volume ? ` volume="${volume}"` : '';
-        const fixRange = range ? ` range="${range}"` : '';
-        return `<prosody${fixVolume}${fixRange}>${content}</prosody>`;
+        const fixrate = rate ? ` rate="${rate}"` : '';
+        return `<prosody${fixVolume}${fixrate}>${content}</prosody>`;
     }
     return content;
 };
@@ -142,6 +124,7 @@ const emphasis = (content, level) => {
     return `<emphasis volume="${level}">${content}</emphasis>`;
 };
 exports.getPer = (elementName, content, themeName) => {
+    var _a;
     const se = getAudio(elementName, themeName);
     if (se) {
         // audio
@@ -151,10 +134,10 @@ exports.getPer = (elementName, content, themeName) => {
             const soundMedia = `<media begin="${se.begin}" soundLevel="${se.soundLevel}">${audio}</media>`;
             let contentSSML = content;
             if (se.content) {
-                contentSSML = emphasis(content, se.content.emphasis.lebel);
-                contentSSML = prosody(contentSSML, se.content.prosody.volume, se.content.prosody.range);
+                // contentSSML = emphasis(content, se.content.emphasis.lebel)
+                contentSSML = prosody(contentSSML, se.content.prosody.rate);
             }
-            const contentMedia = `<media begin="${se.contentBegin}">${contentSSML}</media>`;
+            const contentMedia = `<media begin="${se.contentBegin}" soundLevel="${(_a = se.content) === null || _a === void 0 ? void 0 : _a.soundLevel}">${contentSSML}</media>`;
             return `<par>${contentMedia}${soundMedia}</par>${afterbBreak}`;
         }
         return `${audio}${afterbBreak}`;
