@@ -1,7 +1,7 @@
 import { mdToSsml } from './index'
 
-const ssml = mdToSsml('# Hello')
-console.log(ssml)
+//const ssml = mdToSsml('# Hello')
+//console.log(ssml)
 
 const googlessml = mdToSsml(`
 # Lebel 1

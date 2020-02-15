@@ -62,7 +62,9 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
 </emphasis>
 <break time="2s" />
 <p>${description}</p><break time="2s" />\n`;
-    var formattedXml = xml_formatter_1.default(`<speak><prosody rate="125%">${openning}${parsed}</prosody></speak>`);
+    const xml = `<speak><prosody rate="125%">${openning}${parsed}</prosody></speak>`;
+    // console.log(xml)
+    var formattedXml = xml_formatter_1.default(xml);
     return formattedXml;
 };
 // <audio src="https://actions.google.com/sounds/v1/animals/cat_purr_close.ogg"></audio>
