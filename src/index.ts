@@ -1,5 +1,6 @@
 import marked from 'marked'
 import format from 'xml-formatter';
+import { se } from './se';
 
 /**
  * https://marked.js.org/#/USING_PRO.md#renderer
@@ -8,7 +9,10 @@ import format from 'xml-formatter';
  * @param description 
  */
 
-export const mdToSsml = (markdown: string, title?: string, description?: string) => {
+export const mdToSsml = (markdown: string, title?: string, description?: string, options: any = {}) => {
+
+  const { google: isGoogle = false } = options
+
   const renderer = new marked.Renderer()
 
   renderer.heading = (text: string, level: number, raw: string, slug: any) => {
@@ -39,6 +43,18 @@ export const mdToSsml = (markdown: string, title?: string, description?: string)
   renderer.list = (body: string, ordered: boolean, start: number) => {
     return `<p>${body}</p>`}
   renderer.listitem = (text: string) => {
+    if (isGoogle) {
+      return `
+        <par>
+          <media begin="1s">
+            ${text}
+          </media>
+          <media>
+            <audio src="${se.listitem}" begin="0s"/>
+          </media>
+        </par><break time="1s" />
+      `
+    }
     return `<p>${text}</p>`}
 
   // Strong

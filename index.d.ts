@@ -4,4 +4,4 @@
  * @param title
  * @param description
  */
-export declare const mdToSsml: (markdown: string, title?: string | undefined, description?: string | undefined) => string;
+export declare const mdToSsml: (markdown: string, title?: string | undefined, description?: string | undefined, options?: any) => string;

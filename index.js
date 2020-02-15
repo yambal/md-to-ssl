@@ -5,13 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var marked_1 = __importDefault(require("marked"));
 var xml_formatter_1 = __importDefault(require("xml-formatter"));
+var se_1 = require("./se");
 /**
  * https://marked.js.org/#/USING_PRO.md#renderer
  * @param markdown https://marked.js.org/#/USING_PRO.md#renderer
  * @param title
  * @param description
  */
-exports.mdToSsml = function (markdown, title, description) {
+exports.mdToSsml = function (markdown, title, description, options) {
+    if (options === void 0) { options = {}; }
+    var _a = options.google, isGoogle = _a === void 0 ? false : _a;
     var renderer = new marked_1.default.Renderer();
     renderer.heading = function (text, level, raw, slug) {
         // console.log(slug)
@@ -34,6 +37,9 @@ exports.mdToSsml = function (markdown, title, description) {
         return "<p>" + body + "</p>";
     };
     renderer.listitem = function (text) {
+        if (isGoogle) {
+            return "\n        <par>\n          <media begin=\"1s\">\n            " + text + "\n          </media>\n          <media>\n            <audio src=\"" + se_1.se.listitem + "\" begin=\"0s\"/>\n          </media>\n        </par><break time=\"1s\" />\n      ";
+        }
         return "<p>" + text + "</p>";
     };
     // Strong
