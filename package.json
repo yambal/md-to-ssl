@@ -1,7 +1,7 @@
 {
   "name": "md-to-ssl",
-  "version": "0.0.1",
-  "description": "",
+  "version": "1.0.0",
+  "description": "md-to-ssl",
   "main": "index.js",
   "scripts": {
     "build": "tsc -w"
@@ -16,5 +16,13 @@
     "@types/marked": "^0.7.2",
     "@types/xml-formatter": "^1.1.0",
     "typescript": "^3.7.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yambal/md-to-ssl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yambal/md-to-ssl/issues"
+  },
+  "homepage": "https://github.com/yambal/md-to-ssl#readme"
 }
