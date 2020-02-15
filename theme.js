@@ -5,65 +5,65 @@ const theme = {
     default: {
         h1: {
             url: selib_1.SeLib.accent44_2,
-            soundLevel: '0db',
+            soundLevel: '0dB',
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                soundLevel: '+12.5db',
+                soundLevel: '+15dB',
                 prosody: {
-                    rate: '90%',
+                    rate: '80%',
                 }
             },
             break: '1s'
         },
         h2: {
             url: selib_1.SeLib.accent44_2,
-            soundLevel: '0db',
+            soundLevel: '0dB',
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                soundLevel: '+10db',
+                soundLevel: '+12dB',
                 prosody: {
-                    rate: '92%',
+                    rate: '85%',
                 }
             },
             break: '1s'
         },
         h3: {
             url: selib_1.SeLib.accent44_2,
-            soundLevel: '0db',
+            soundLevel: '0dB',
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                soundLevel: '+7.5db',
+                soundLevel: '+9dB',
                 prosody: {
-                    rate: '94%',
+                    rate: '90%',
                 }
             },
             break: '1s'
         },
         h4: {
             url: selib_1.SeLib.accent44_2,
-            soundLevel: '0db',
+            soundLevel: '0dB',
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                soundLevel: '+5db',
+                soundLevel: '+6dB',
                 prosody: {
-                    rate: '96%',
+                    rate: '95%',
                 }
             },
             break: '1s'
         },
         h5: {
             url: selib_1.SeLib.accent44_2,
-            soundLevel: '0db',
+            soundLevel: '0dB',
             begin: '0s',
             contentBegin: '0.75s',
             content: {
-                soundLevel: '+2.5db',
+                soundLevel: '+3dB',
                 prosody: {
-                    rate: '98%',
+                    rate: '100%',
                 }
             },
             break: '1s'
