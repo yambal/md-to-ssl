@@ -1,6 +1,6 @@
 import marked from 'marked'
 import format from 'xml-formatter';
-import { se } from './se';
+import { selib, iSe } from './selib';
 
 /**
  * https://marked.js.org/#/USING_PRO.md#renderer
@@ -12,6 +12,10 @@ import { se } from './se';
 export const mdToSsml = (markdown: string, title?: string, description?: string, options: any = {}) => {
 
   const { google: isGoogle = false } = options
+  const { se: { oListitem = {} } = {} } = options
+
+  const listitem = Object.assign(selib.listitem, oListitem)
+
 
   const renderer = new marked.Renderer()
 
@@ -44,16 +48,12 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
     return `<p>${body}</p>`}
   renderer.listitem = (text: string) => {
     if (isGoogle) {
-      return `
-        <par>
-          <media begin="1s">
-            ${text}
-          </media>
-          <media>
-            <audio src="${se.listitem}" begin="0s"/>
-          </media>
-        </par><break time="1s" />
-      `
+      return `<par>
+  <media begin="${listitem.contentsBegin}">${text}</media>
+  <media>
+    <audio src="${listitem.url}" begin="${listitem.begin}" soundLevel="${listitem.soundLevel}"/>
+  </media>
+</par><break time="1s" />`
     }
     return `<p>${text}</p>`}
 
