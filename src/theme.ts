@@ -3,17 +3,23 @@ import { SeLib } from './selib'
 type tThemeName = undefined | 'default'
 type tEmphasisLebel = 'reduced' | 'none' | 'moderate' | 'strong'
 
-interface iElementSeData {
-  url: string
-  soundLevel: string
-  begin: string
-  contentBegin?: string
-  content?: {
-    soundLevel: string
-    prosody: {
-      rate: string // % "x-low", "low", "medium", "high", "x-high", or "default"
-    }
+interface iMedia {
+  url?: string
+  soundLevel?: string
+  begin?: string
+  end?: string
+  fadeOutDur?: string
+}
+
+interface iConentMedia extends iMedia {
+  prosody?: {
+    rate: string // % "x-low", "low", "medium", "high", "x-high", or "default"
   }
+}
+
+interface iElementSeData {
+  audio: iMedia
+  content?: iConentMedia
   before?: string
   break?: string
 }
@@ -25,6 +31,7 @@ interface iTheme {
   h4: iElementSeData
   h5: iElementSeData
   h6: iElementSeData
+  blockquote: iElementSeData
   listitem: iElementSeData
   hr: iElementSeData
   link: iElementSeData
@@ -36,11 +43,13 @@ interface iThemes {
 const theme: iThemes = {
   default: {
     h1: {
-      url: SeLib.accent44_2,
-      soundLevel: '0dB',
-      begin: '0s',
-      contentBegin: '0.75s',
+      audio: {
+        url: SeLib.accent44_2,
+        soundLevel: '0dB',
+        begin: '0s',
+      },
       content: {
+        begin: '0.75s',
         soundLevel: '+10dB',
         prosody: {
           rate: '85%',
@@ -49,11 +58,13 @@ const theme: iThemes = {
       break: '1s'
     },
     h2: {
-      url: SeLib.accent44_2,
-      soundLevel: '0dB',
-      begin: '0s',
-      contentBegin: '0.75s',
+      audio: {
+        url: SeLib.accent44_2,
+        soundLevel: '0dB',
+        begin: '0s',
+      },
       content: {
+        begin: '0.75s',
         soundLevel: '+8dB',
         prosody: {
           rate: '88%',
@@ -62,11 +73,13 @@ const theme: iThemes = {
       break: '1s'
     },
     h3: {
-      url: SeLib.accent44_2,
-      soundLevel: '0dB',
-      begin: '0s',
-      contentBegin: '0.75s',
+      audio: {
+        url: SeLib.accent44_2,
+        soundLevel: '0dB',
+        begin: '0s',
+      },
       content: {
+        begin: '0.75s',
         soundLevel: '+6dB',
         prosody: {
           rate: '91%',
@@ -75,11 +88,13 @@ const theme: iThemes = {
       break: '1s'
     },
     h4: {
-      url: SeLib.accent44_2,
-      soundLevel: '0dB',
-      begin: '0s',
-      contentBegin: '0.75s',
+      audio: {
+        url: SeLib.accent44_2,
+        soundLevel: '0dB',
+        begin: '0s',
+      },
       content: {
+        begin: '0.75s',
         soundLevel: '+4dB',
         prosody: {
           rate: '94%',
@@ -88,11 +103,13 @@ const theme: iThemes = {
       break: '1s'
     },
     h5: {
-      url: SeLib.accent44_2,
-      soundLevel: '0dB',
-      begin: '0s',
-      contentBegin: '0.75s',
+      audio: {
+        url: SeLib.accent44_2,
+        soundLevel: '0dB',
+        begin: '0s'
+      },
       content: {
+        begin: '0.75s',
         soundLevel: '+2dB',
         prosody: {
           rate: '97%',
@@ -101,11 +118,13 @@ const theme: iThemes = {
       break: '1s'
     },
     h6: {
-      url: SeLib.accent44_2,
-      soundLevel: '0dB',
-      begin: '0s',
-      contentBegin: '0.75s',
+      audio: {
+        url: SeLib.accent44_2,
+        soundLevel: '0dB',
+        begin: '0s',
+      },
       content: {
+        begin: '0.75s',
         soundLevel: '0dB',
         prosody: {
           rate: '100%',
@@ -113,29 +132,41 @@ const theme: iThemes = {
       },
       break: '1s'
     },
+    blockquote: {
+      audio: {
+        url: SeLib.windytown,
+        soundLevel: '0dB',
+        begin: '0s',
+        end: '3s',
+        fadeOutDur: '2.5s'
+      },
+      content: {
+        begin: '3s',
+      },
+      before: '1s',
+      break: '1s'
+    },
     listitem: {
-      url: SeLib.listItem,
-      soundLevel: '+40dB',
-      begin: '0s',
-      contentBegin: '0.75s',
+      audio: {
+        url: SeLib.listItem,
+        soundLevel: '+40dB',
+      },
+      content: {
+        begin: '0.75s'
+      },
       break: '1s'
     },
     hr: {
-      url: SeLib.hr,
-      soundLevel: '+1dB',
-      begin: '0s',
+      audio: {
+        url: SeLib.hr,
+        soundLevel: '+1dB',
+        begin: '0s',
+      },
       break: '2s'
     },
     link: {
-      url: SeLib.click1,
-      soundLevel: '0dB',
-      begin: '0s',
-      contentBegin: '0.75s',
-      content: {
-        soundLevel: '0dB',
-        prosody: {
-          rate: '100%',
-        }
+      audio: {
+        url: SeLib.click1
       },
       before: '0.25s',
       break: '0.25s',
@@ -143,7 +174,7 @@ const theme: iThemes = {
   }
 }
 
-type tElementName = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'listitem' | 'hr' | 'link'
+type tElementName = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote' | 'listitem' | 'hr' | 'link'
 
 const getTheme = (themeName: tThemeName): iTheme => {
   const name: tThemeName = themeName ? themeName : 'default'
@@ -156,6 +187,14 @@ const getAudio = (elementName: tElementName, themeName?: tThemeName): iElementSe
     return theme[elementName]
   }
   return null
+}
+
+const getMedia = (content: string, soundLevel?: string, begin?: string, end?: string, fadeOutDur?: string) => {
+  const fixSoundLavel = soundLevel ? ` soundLevel="${soundLevel}"` : ''
+  const fixBegin = begin ? ` begin="${begin}"` : ''
+  const fixEnd= end ? ` end="${end}"` : ''
+  const fixFadeOutDur= fadeOutDur ? ` fadeOutDur="${fadeOutDur}"` : ''
+  return `<media${fixSoundLavel}${fixBegin}${fixEnd}${fixFadeOutDur}>${content}</media>`
 }
 
 // 韻律
@@ -180,20 +219,17 @@ export const getPer = (elementName: tElementName, content?: string, themeName?: 
   const se = getAudio(elementName, themeName)
   if (se) {
     // audio
-    const audio = `<audio src="${se.url}"/>`
+    const audio = `<audio src="${se.audio.url}"/>`
     const beforeBreak = se.before ? `<break time="${se.before}"/>` : ''
     const afterBreak = se.break ? `<break time="${se.break}"/>` : ''
 
     if (content) {
-      const soundMedia = `<media begin="${se.begin}" soundLevel="${se.soundLevel}">${audio}</media>`
-
+      const soundMedia = getMedia(audio, se.audio.soundLevel, se.audio.begin, se.audio.end, se.audio.fadeOutDur)
       let contentSSML = content
       if (se.content) {
-        // contentSSML = emphasis(content, se.content.emphasis.lebel)
-        contentSSML = prosody(contentSSML, se.content.prosody.rate)
+        contentSSML = prosody(contentSSML, se.content.prosody?.rate)
       }
-      const contentMedia = `<media begin="${se.contentBegin}" soundLevel="${se.content?.soundLevel}">${contentSSML}</media>`
-
+      const contentMedia = getMedia(contentSSML, se.content?.soundLevel, se.content?.begin)
       return `${beforeBreak}<par>${contentMedia}${soundMedia}</par>${afterBreak}`
     }
 

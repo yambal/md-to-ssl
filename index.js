@@ -24,6 +24,9 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     // Blockquote
     renderer.blockquote = (text) => {
+        if (isGoogle) {
+            return theme_1.getPer('blockquote', text);
+        }
         return `<p><prosody rate="slow">${text}</prosody></p><break time="2s" />\n`;
     };
     // p

@@ -24,7 +24,11 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
 
   // Blockquote
   renderer.blockquote = (text: string) => {
-    return `<p><prosody rate="slow">${text}</prosody></p><break time="2s" />\n`}
+    if (isGoogle) {
+      return getPer('blockquote', text)
+    }
+    return `<p><prosody rate="slow">${text}</prosody></p><break time="2s" />\n`
+  }
 
   // p
   renderer.paragraph = (text: string) => {
