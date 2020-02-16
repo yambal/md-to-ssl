@@ -98,13 +98,13 @@ const theme = {
                 url: selib_1.SeLib.windytown,
                 soundLevel: '0dB',
                 begin: '0s',
-                end: '3s',
-                fadeOutDur: '2.5s'
+                end: '12s',
+                fadeOutDur: '2s'
             },
             content: {
                 begin: '3s',
+                end: '3s',
             },
-            before: '1s',
             break: '1s'
         },
         listitem: {
