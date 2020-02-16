@@ -14,6 +14,7 @@ interface iElementSeData {
       rate: string // % "x-low", "low", "medium", "high", "x-high", or "default"
     }
   }
+  before?: string
   break?: string
 }
 
@@ -26,6 +27,7 @@ interface iTheme {
   h6: iElementSeData
   listitem: iElementSeData
   hr: iElementSeData
+  link: iElementSeData
 }
 interface iThemes {
   default: iTheme
@@ -123,11 +125,25 @@ const theme: iThemes = {
       soundLevel: '+1dB',
       begin: '0s',
       break: '2s'
+    },
+    link: {
+      url: SeLib.click1,
+      soundLevel: '0dB',
+      begin: '0s',
+      contentBegin: '0.75s',
+      content: {
+        soundLevel: '0dB',
+        prosody: {
+          rate: '100%',
+        }
+      },
+      before: '0.25s',
+      break: '0.25s',
     }
   }
 }
 
-type tElementName = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'listitem' | 'hr'
+type tElementName = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'listitem' | 'hr' | 'link'
 
 const getTheme = (themeName: tThemeName): iTheme => {
   const name: tThemeName = themeName ? themeName : 'default'
@@ -165,7 +181,8 @@ export const getPer = (elementName: tElementName, content?: string, themeName?: 
   if (se) {
     // audio
     const audio = `<audio src="${se.url}"/>`
-    const afterbBreak = se.break ? `<break time="${se.break}"/>` : ''
+    const beforeBreak = se.before ? `<break time="${se.before}"/>` : ''
+    const afterBreak = se.break ? `<break time="${se.break}"/>` : ''
 
     if (content) {
       const soundMedia = `<media begin="${se.begin}" soundLevel="${se.soundLevel}">${audio}</media>`
@@ -177,10 +194,10 @@ export const getPer = (elementName: tElementName, content?: string, themeName?: 
       }
       const contentMedia = `<media begin="${se.contentBegin}" soundLevel="${se.content?.soundLevel}">${contentSSML}</media>`
 
-      return `<par>${contentMedia}${soundMedia}</par>${afterbBreak}`
+      return `${beforeBreak}<par>${contentMedia}${soundMedia}</par>${afterBreak}`
     }
 
-    return `${audio}${afterbBreak}`
+    return `${beforeBreak}${audio}${afterBreak}`
   }
   return content ? `<p>${content}</p>` : ''
 }

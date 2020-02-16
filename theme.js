@@ -93,6 +93,20 @@ const theme = {
             soundLevel: '+1dB',
             begin: '0s',
             break: '2s'
+        },
+        link: {
+            url: selib_1.SeLib.click1,
+            soundLevel: '0dB',
+            begin: '0s',
+            contentBegin: '0.75s',
+            content: {
+                soundLevel: '0dB',
+                prosody: {
+                    rate: '100%',
+                }
+            },
+            before: '0.25s',
+            break: '0.25s',
         }
     }
 };
@@ -129,7 +143,8 @@ exports.getPer = (elementName, content, themeName) => {
     if (se) {
         // audio
         const audio = `<audio src="${se.url}"/>`;
-        const afterbBreak = se.break ? `<break time="${se.break}"/>` : '';
+        const beforeBreak = se.before ? `<break time="${se.before}"/>` : '';
+        const afterBreak = se.break ? `<break time="${se.break}"/>` : '';
         if (content) {
             const soundMedia = `<media begin="${se.begin}" soundLevel="${se.soundLevel}">${audio}</media>`;
             let contentSSML = content;
@@ -138,9 +153,9 @@ exports.getPer = (elementName, content, themeName) => {
                 contentSSML = prosody(contentSSML, se.content.prosody.rate);
             }
             const contentMedia = `<media begin="${se.contentBegin}" soundLevel="${(_a = se.content) === null || _a === void 0 ? void 0 : _a.soundLevel}">${contentSSML}</media>`;
-            return `<par>${contentMedia}${soundMedia}</par>${afterbBreak}`;
+            return `${beforeBreak}<par>${contentMedia}${soundMedia}</par>${afterBreak}`;
         }
-        return `${audio}${afterbBreak}`;
+        return `${beforeBreak}${audio}${afterBreak}`;
     }
     return content ? `<p>${content}</p>` : '';
 };

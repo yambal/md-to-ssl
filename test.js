@@ -11,6 +11,10 @@ const googlessml = index_1.mdToSsml(`
 - リスト2
 - リスト3
 
+*イタリック*
+
+[Google先生](https://www.google.co.jp/)
+
 ---
 `, '', '', {
     google: true

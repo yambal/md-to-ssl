@@ -53,7 +53,22 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     // BR
     renderer.br = function () {
-        return `<break time="1s" />\n`;
+        return `<break time="1s" />`;
+    };
+    // EM
+    renderer.em = function () {
+        return `<break time="1s" />`;
+    };
+    /*
+    renderer.em = function (text: string) {
+      return `<d>${text}</d>`
+    };
+    */
+    renderer.link = (href, title, text) => {
+        if (isGoogle) {
+            return theme_1.getPer('link', text);
+        }
+        return `<d>${href}, ${title}, ${text}</d>`;
     };
     // @ts-ignore: Unreachable code error
     const parsed = marked_1.default(markdown, { renderer: renderer });
