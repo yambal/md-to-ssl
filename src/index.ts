@@ -32,7 +32,7 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
 
   // p
   renderer.paragraph = (text: string) => {
-    return `<p>${text}</p><break time="2s" />\n`}
+    return `<p>${text}</p><break time="1.5" />\n`}
 
   // hr
   renderer.hr= () => {
@@ -60,7 +60,7 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
 
   // BR
   renderer.br = function () {
-    return `<break time="1s" />`
+    return `<break time="0.5s" />`
   };
 
   // EM

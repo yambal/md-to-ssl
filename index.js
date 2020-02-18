@@ -31,7 +31,7 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     // p
     renderer.paragraph = (text) => {
-        return `<p>${text}</p><break time="2s" />\n`;
+        return `<p>${text}</p><break time="1.5" />\n`;
     };
     // hr
     renderer.hr = () => {
@@ -56,7 +56,7 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     // BR
     renderer.br = function () {
-        return `<break time="1s" />`;
+        return `<break time="0.5s" />`;
     };
     // EM
     renderer.em = function () {
