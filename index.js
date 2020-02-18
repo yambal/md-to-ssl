@@ -31,7 +31,7 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     // p
     renderer.paragraph = (text) => {
-        return `<p>${text}</p><break time="1.5" />\n`;
+        return `<p>${text}</p><break time="1.5s" />\n`;
     };
     // hr
     renderer.hr = () => {

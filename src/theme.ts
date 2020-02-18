@@ -137,12 +137,15 @@ const theme: iThemes = {
       audio: {
         url: SeLib.windytown,
         soundLevel: '0dB',
-        begin: '-3s',
+        begin: '0s',
         end: '+3s',
         fadeOutDur: '2s'
       },
+      content: {
+          begin: '3s',
+      },
       break: '1s'
-  },
+    },
     listitem: {
       audio: {
         url: SeLib.listItem,
