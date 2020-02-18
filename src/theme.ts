@@ -1,4 +1,5 @@
 import { SeLib } from './selib'
+import shortid from 'shortid'
 
 type tThemeName = undefined | 'default'
 type tEmphasisLebel = 'reduced' | 'none' | 'moderate' | 'strong'
@@ -136,13 +137,9 @@ const theme: iThemes = {
       audio: {
         url: SeLib.windytown,
         soundLevel: '0dB',
-        begin: '0s',
-        end: '12s',
+        begin: 'start-3s',
+        end: 'end+3s',
         fadeOutDur: '2s'
-      },
-      content: {
-          begin: '3s',
-          end: '3s',
       },
       break: '1s'
   },
@@ -189,12 +186,22 @@ const getAudio = (elementName: tElementName, themeName?: tThemeName): iElementSe
   return null
 }
 
-const getMedia = (content: string, soundLevel?: string, begin?: string, end?: string, fadeOutDur?: string) => {
+const getMedia = (
+  content: string,
+  id: string | null,
+  targetId: string | null,
+  soundLevel?: string,
+  begin?: string,
+  end?: string,
+  fadeOutDur?: string
+) => {
+  const fixId = id ? ` xml:id="${id}"` : ''
+  const fixTargetId = targetId ? `${targetId}.` : ''
   const fixSoundLavel = soundLevel ? ` soundLevel="${soundLevel}"` : ''
-  const fixBegin = begin ? ` begin="${begin}"` : ''
-  const fixEnd= end ? ` end="${end}"` : ''
+  const fixBegin = begin ? ` begin="${fixTargetId}${begin}"` : ''
+  const fixEnd= end ? ` end="${fixTargetId}${end}"` : ''
   const fixFadeOutDur= fadeOutDur ? ` fadeOutDur="${fadeOutDur}"` : ''
-  return `<media${fixSoundLavel}${fixBegin}${fixEnd}${fixFadeOutDur}>${content}</media>`
+  return `<media${fixId}${fixSoundLavel}${fixBegin}${fixEnd}${fixFadeOutDur}>${content}</media>`
 }
 
 // 韻律
@@ -223,13 +230,15 @@ export const getPer = (elementName: tElementName, content?: string, themeName?: 
     const beforeBreak = se.before ? `<break time="${se.before}"/>` : ''
     const afterBreak = se.break ? `<break time="${se.break}"/>` : ''
 
+    const id = `m-${shortid.generate()}-id`
+
     if (content) {
-      const soundMedia = getMedia(audio, se.audio.soundLevel, se.audio.begin, se.audio.end, se.audio.fadeOutDur)
+      const soundMedia = getMedia(audio, null, id, se.audio.soundLevel, se.audio.begin, se.audio.end, se.audio.fadeOutDur)
       let contentSSML = content
       if (se.content) {
         contentSSML = prosody(contentSSML, se.content.prosody?.rate)
       }
-      const contentMedia = getMedia(contentSSML, se.content?.soundLevel, se.content?.begin)
+      const contentMedia = getMedia(contentSSML, id, null, se.content?.soundLevel, se.content?.begin)
       return `${beforeBreak}<par>${contentMedia}${soundMedia}</par>${afterBreak}`
     }
 

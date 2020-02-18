@@ -1,6 +1,6 @@
 {
   "name": "md-to-ssl",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "md-to-ssl",
   "main": "index.js",
   "scripts": {
@@ -11,10 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "marked": "^0.8.0",
+    "shortid": "^2.2.15",
     "xml-formatter": "^1.2.0"
   },
   "devDependencies": {
     "@types/marked": "^0.7.2",
+    "@types/shortid": "^0.0.29",
     "@types/xml-formatter": "^1.1.0",
     "typescript": "^3.7.5"
   },

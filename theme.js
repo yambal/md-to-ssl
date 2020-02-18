@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const selib_1 = require("./selib");
+const shortid_1 = __importDefault(require("shortid"));
 const theme = {
     default: {
         h1: {
@@ -97,13 +101,9 @@ const theme = {
             audio: {
                 url: selib_1.SeLib.windytown,
                 soundLevel: '0dB',
-                begin: '0s',
-                end: '12s',
+                begin: 'start-3s',
+                end: 'end+3s',
                 fadeOutDur: '2s'
-            },
-            content: {
-                begin: '3s',
-                end: '3s',
             },
             break: '1s'
         },
@@ -145,12 +145,14 @@ const getAudio = (elementName, themeName) => {
     }
     return null;
 };
-const getMedia = (content, soundLevel, begin, end, fadeOutDur) => {
+const getMedia = (content, id, targetId, soundLevel, begin, end, fadeOutDur) => {
+    const fixId = id ? ` xml:id="${id}"` : '';
+    const fixTargetId = targetId ? `${targetId}.` : '';
     const fixSoundLavel = soundLevel ? ` soundLevel="${soundLevel}"` : '';
-    const fixBegin = begin ? ` begin="${begin}"` : '';
-    const fixEnd = end ? ` end="${end}"` : '';
+    const fixBegin = begin ? ` begin="${fixTargetId}${begin}"` : '';
+    const fixEnd = end ? ` end="${fixTargetId}${end}"` : '';
     const fixFadeOutDur = fadeOutDur ? ` fadeOutDur="${fadeOutDur}"` : '';
-    return `<media${fixSoundLavel}${fixBegin}${fixEnd}${fixFadeOutDur}>${content}</media>`;
+    return `<media${fixId}${fixSoundLavel}${fixBegin}${fixEnd}${fixFadeOutDur}>${content}</media>`;
 };
 // 韻律
 const prosody = (content, rate, volume) => {
@@ -176,13 +178,14 @@ exports.getPer = (elementName, content, themeName) => {
         const audio = `<audio src="${se.audio.url}"/>`;
         const beforeBreak = se.before ? `<break time="${se.before}"/>` : '';
         const afterBreak = se.break ? `<break time="${se.break}"/>` : '';
+        const id = `m-${shortid_1.default.generate()}-id`;
         if (content) {
-            const soundMedia = getMedia(audio, se.audio.soundLevel, se.audio.begin, se.audio.end, se.audio.fadeOutDur);
+            const soundMedia = getMedia(audio, null, id, se.audio.soundLevel, se.audio.begin, se.audio.end, se.audio.fadeOutDur);
             let contentSSML = content;
             if (se.content) {
                 contentSSML = prosody(contentSSML, (_a = se.content.prosody) === null || _a === void 0 ? void 0 : _a.rate);
             }
-            const contentMedia = getMedia(contentSSML, (_b = se.content) === null || _b === void 0 ? void 0 : _b.soundLevel, (_c = se.content) === null || _c === void 0 ? void 0 : _c.begin);
+            const contentMedia = getMedia(contentSSML, id, null, (_b = se.content) === null || _b === void 0 ? void 0 : _b.soundLevel, (_c = se.content) === null || _c === void 0 ? void 0 : _c.begin);
             return `${beforeBreak}<par>${contentMedia}${soundMedia}</par>${afterBreak}`;
         }
         return `${beforeBreak}${audio}${afterBreak}`;
