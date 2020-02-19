@@ -31,28 +31,35 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
   // Blockquote
   renderer.blockquote = (text: string) => {
     if (op.google) {
-      return getPer('blockquote', text)
+      // return getPer('blockquote', text)
+      return bgmM.blockquote(text)
     }
     return `<p><prosody rate="slow">${text}</prosody></p><break time="2s" />\n`
   }
 
   // p
   renderer.paragraph = (text: string) => {
-    return `<p>${text}</p><break time="1.5s" />\n`}
+    bgmM.setHasContent()
+    return `<p>${text}</p><break time="1.5s" />`
+  }
 
   // hr
   renderer.hr= () => {
+    bgmM.setHasContent()
     if (op.google) {
       return getPer('hr')
     }
-    return `<break time="3s" />\n`
+    return `<break time="3s" />`
   }
 
   // list
   renderer.list = (body: string, ordered: boolean, start: number) => {
-    return `<p>${body}</p>`}
+    bgmM.setHasContent()
+    return `<p>${body}</p>`
+  }
 
   renderer.listitem = (text: string) => {
+    bgmM.setHasContent()
     if (op.google) {
       return getPer('listitem', text)
     }
@@ -61,16 +68,19 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
 
   // Strong
   renderer.strong = function (text: string) {
+    bgmM.setHasContent()
     return `<break time="0.25s" /><emphasis level="strong">${text}</emphasis><break time="0.25s" />`
   };
 
   // BR
   renderer.br = function () {
+    bgmM.setHasContent()
     return `<break time="0.5s" />`
   };
 
   // EM
   renderer.em = function () {
+    bgmM.setHasContent()
     return `<break time="1s" />`
   };
 
@@ -81,6 +91,7 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
   */
 
  renderer.link = (href: string, title: string, text: string) => {
+  bgmM.setHasContent()
   if (op.google) {
     return getPer('link', text)
   }

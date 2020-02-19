@@ -29,26 +29,31 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     // Blockquote
     renderer.blockquote = (text) => {
         if (op.google) {
-            return theme_1.getPer('blockquote', text);
+            // return getPer('blockquote', text)
+            return bgmM.blockquote(text);
         }
         return `<p><prosody rate="slow">${text}</prosody></p><break time="2s" />\n`;
     };
     // p
     renderer.paragraph = (text) => {
-        return `<p>${text}</p><break time="1.5s" />\n`;
+        bgmM.setHasContent();
+        return `<p>${text}</p><break time="1.5s" />`;
     };
     // hr
     renderer.hr = () => {
+        bgmM.setHasContent();
         if (op.google) {
             return theme_1.getPer('hr');
         }
-        return `<break time="3s" />\n`;
+        return `<break time="3s" />`;
     };
     // list
     renderer.list = (body, ordered, start) => {
+        bgmM.setHasContent();
         return `<p>${body}</p>`;
     };
     renderer.listitem = (text) => {
+        bgmM.setHasContent();
         if (op.google) {
             return theme_1.getPer('listitem', text);
         }
@@ -56,14 +61,17 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     // Strong
     renderer.strong = function (text) {
+        bgmM.setHasContent();
         return `<break time="0.25s" /><emphasis level="strong">${text}</emphasis><break time="0.25s" />`;
     };
     // BR
     renderer.br = function () {
+        bgmM.setHasContent();
         return `<break time="0.5s" />`;
     };
     // EM
     renderer.em = function () {
+        bgmM.setHasContent();
         return `<break time="1s" />`;
     };
     /*
@@ -72,6 +80,7 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     */
     renderer.link = (href, title, text) => {
+        bgmM.setHasContent();
         if (op.google) {
             return theme_1.getPer('link', text);
         }

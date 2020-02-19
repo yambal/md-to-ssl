@@ -198,25 +198,36 @@ exports.getPer = (elementName, content, themeName) => {
 };
 exports.bgmManager = () => {
     let currentId;
+    let hasContent = false;
     const bgmCloser = () => {
-        return `</media><media begin="-1s" end="h${currentId}.end+2d" fadeOutDur="3s"><audio src="${selib_1.SeLib.windytown}"/></media></par>`;
+        if (currentId) {
+            if (hasContent) {
+                return `</media><media begin="0s" end="h${currentId}.end+2s" fadeOutDur="3s"><audio src="${selib_1.SeLib.windytown}"/></media></par>`;
+            }
+            return `</media></par>`;
+        }
+        return '';
     };
     return {
         header: (level, text) => {
-            let bgmBeforeCloser = '';
-            if (currentId) {
-                bgmBeforeCloser = bgmCloser();
-            }
+            const bgmBeforeCloser = bgmCloser();
             currentId = makeId();
             // @ts-ignore: Unreachable code error
-            const content = `${exports.getPer(`h${level}`, text)}<par><media xml:id="h${currentId}">`;
+            const content = `${exports.getPer(`h${level}`, text)}<par><media xml:id="h${currentId}" begin="2s">`;
+            hasContent = false;
+            return `${bgmBeforeCloser}${content}`;
+        },
+        blockquote: (text) => {
+            const bgmBeforeCloser = bgmCloser();
+            const content = `${exports.getPer('blockquote', text)}<par><media xml:id="bq${currentId}" begin="2s">`;
+            hasContent = false;
             return `${bgmBeforeCloser}${content}`;
         },
         getBgmCloser: () => {
-            if (currentId) {
-                return bgmCloser();
-            }
-            return '';
+            return bgmCloser();
+        },
+        setHasContent: () => {
+            hasContent = true;
         }
     };
 };

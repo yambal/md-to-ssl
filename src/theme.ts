@@ -258,30 +258,38 @@ export const getPer = (elementName: tElementName, content?: string, themeName?: 
 
 export const bgmManager = () => {
   let currentId: string
+  let hasContent: boolean = false
 
-  const bgmCloser = () => {
-    return `</media><media begin="-1s" end="h${currentId}.end+2d" fadeOutDur="3s"><audio src="${SeLib.windytown}"/></media></par>`
+  const bgmCloser = ():string => {
+    if (currentId) {
+      if(hasContent){
+        return `</media><media begin="0s" end="h${currentId}.end+2s" fadeOutDur="3s"><audio src="${SeLib.windytown}"/></media></par>`
+      }
+      return `</media></par>`
+    }
+    return ''
   }
 
   return {
     header: (level: number, text: string) => {
-
-
-      let bgmBeforeCloser = '';
-      if (currentId) {
-        bgmBeforeCloser = bgmCloser ()
-      }
-
+      const bgmBeforeCloser = bgmCloser()
       currentId = makeId()
       // @ts-ignore: Unreachable code error
-      const content = `${getPer(`h${level}`, text)}<par><media xml:id="h${currentId}">`
+      const content = `${getPer(`h${level}`, text)}<par><media xml:id="h${currentId}" begin="2s">`
+      hasContent = false
       return `${bgmBeforeCloser}${content}`
     },
-    getBgmCloser: () => {
-      if (currentId) {
-        return bgmCloser()
-      }
-      return ''
+    blockquote: (text: string) => {
+      const bgmBeforeCloser = bgmCloser()
+      const content = `${getPer('blockquote', text)}<par><media xml:id="bq${currentId}" begin="2s">`
+      hasContent = false
+      return `${bgmBeforeCloser}${content}`
+    },
+    getBgmCloser: ():string => {
+      return bgmCloser()
+    },
+    setHasContent: ():void => {
+      hasContent = true
     }
   }
 }
