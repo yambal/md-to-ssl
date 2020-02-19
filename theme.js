@@ -211,20 +211,21 @@ exports.bgmManager = () => {
     return {
         header: (level, text) => {
             const bgmBeforeCloser = bgmCloser();
-            currentId = makeId();
+            currentId = `bgm${makeId()}`;
             // @ts-ignore: Unreachable code error
-            const content = `${exports.getPer(`h${level}`, text)}<par><media xml:id="h${currentId}" begin="2s">`;
+            const content = `${exports.getPer(`h${level}`, text)}<par><media xml:id="${currentId}" begin="2s">`;
             hasContent = false;
             return `${bgmBeforeCloser}${content}`;
         },
         blockquote: (text) => {
             const bgmBeforeCloser = bgmCloser();
-            currentId = makeId();
-            const content = `${exports.getPer('blockquote', text)}<par><media xml:id="bq${currentId}" begin="2s">`;
+            currentId = `bgm${makeId()}`;
+            const content = `${exports.getPer('blockquote', text)}<par><media xml:id="${currentId}" begin="2s">`;
             hasContent = false;
             return `${bgmBeforeCloser}${content}`;
         },
         getBgmCloser: () => {
+            hasContent = false;
             return bgmCloser();
         },
         setHasContent: () => {
