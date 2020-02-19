@@ -219,6 +219,7 @@ exports.bgmManager = () => {
         },
         blockquote: (text) => {
             const bgmBeforeCloser = bgmCloser();
+            currentId = makeId();
             const content = `${exports.getPer('blockquote', text)}<par><media xml:id="bq${currentId}" begin="2s">`;
             hasContent = false;
             return `${bgmBeforeCloser}${content}`;
