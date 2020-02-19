@@ -1,6 +1,6 @@
 {
   "name": "md-to-ssl",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "md-to-ssl",
   "main": "index.js",
   "scripts": {

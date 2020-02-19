@@ -287,8 +287,9 @@ export const bgmManager = () => {
       return `${bgmBeforeCloser}${content}`
     },
     getBgmCloser: ():string => {
+      const content = bgmCloser()
       hasContent = false
-      return bgmCloser()
+      return content
     },
     setHasContent: ():void => {
       hasContent = true
