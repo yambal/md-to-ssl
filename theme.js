@@ -202,7 +202,7 @@ exports.bgmManager = () => {
     const bgmCloser = () => {
         if (currentId) {
             if (hasContent) {
-                return `</media><media begin="0s" end="h${currentId}.end+2s" fadeOutDur="3s"><audio src="${selib_1.SeLib.windytown}"/></media></par>`;
+                return `</media><media begin="0s" end="${currentId}.end+2s" fadeOutDur="3s"><audio src="${selib_1.SeLib.windytown}"/></media></par>`;
             }
             return `</media></par>`;
         }

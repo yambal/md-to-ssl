@@ -263,7 +263,7 @@ export const bgmManager = () => {
   const bgmCloser = ():string => {
     if (currentId) {
       if(hasContent){
-        return `</media><media begin="0s" end="h${currentId}.end+2s" fadeOutDur="3s"><audio src="${SeLib.windytown}"/></media></par>`
+        return `</media><media begin="0s" end="${currentId}.end+2s" fadeOutDur="3s"><audio src="${SeLib.windytown}"/></media></par>`
       }
       return `</media></par>`
     }
