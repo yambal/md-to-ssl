@@ -255,3 +255,33 @@ export const getPer = (elementName: tElementName, content?: string, themeName?: 
   }
   return content ? `<p>${content}</p>` : ''
 }
+
+export const bgmManager = () => {
+  let currentId: string
+
+  const bgmCloser = () => {
+    return `</media><media begin="-1s" end="h${currentId}.end+2d" fadeOutDur="3s"><audio src="${SeLib.windytown}"/></media></par>`
+  }
+
+  return {
+    header: (level: number, text: string) => {
+
+
+      let bgmBeforeCloser = '';
+      if (currentId) {
+        bgmBeforeCloser = bgmCloser ()
+      }
+
+      currentId = makeId()
+      // @ts-ignore: Unreachable code error
+      const content = `${getPer(`h${level}`, text)}<par><media xml:id="h${currentId}">`
+      return `${bgmBeforeCloser}${content}`
+    },
+    getBgmCloser: () => {
+      if (currentId) {
+        return bgmCloser()
+      }
+      return ''
+    }
+  }
+}

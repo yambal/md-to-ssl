@@ -1,6 +1,6 @@
 import marked from 'marked'
 import format from 'xml-formatter';
-import { getPer } from './theme'
+import { getPer, bgmManager } from './theme'
 
 /**
  * https://marked.js.org/#/USING_PRO.md#renderer
@@ -11,20 +11,26 @@ import { getPer } from './theme'
 
 export const mdToSsml = (markdown: string, title?: string, description?: string, options: any = {}) => {
 
-  const { google: isGoogle = false } = options
+  const op = Object.assign({
+    google: false
+  },options)
+
   const renderer = new marked.Renderer()
+  const bgmM = bgmManager()
 
   renderer.heading = (text: string, level: number, raw: string, slug: any) => {
-    if (isGoogle) {
+    if (op.google) {
       // @ts-ignore: Unreachable code error
-      return getPer(`h${level}`, text)
+      // return getPer(`h${level}`, text)
+
+      return bgmM.header(level, text)
     }
     return `<emphasis level="strong">${text}</emphasis><break time="1.5s" />`
   };
 
   // Blockquote
   renderer.blockquote = (text: string) => {
-    if (isGoogle) {
+    if (op.google) {
       return getPer('blockquote', text)
     }
     return `<p><prosody rate="slow">${text}</prosody></p><break time="2s" />\n`
@@ -36,7 +42,7 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
 
   // hr
   renderer.hr= () => {
-    if (isGoogle) {
+    if (op.google) {
       return getPer('hr')
     }
     return `<break time="3s" />\n`
@@ -47,7 +53,7 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
     return `<p>${body}</p>`}
 
   renderer.listitem = (text: string) => {
-    if (isGoogle) {
+    if (op.google) {
       return getPer('listitem', text)
     }
     return `<p>${text}</p>`
@@ -75,7 +81,7 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
   */
 
  renderer.link = (href: string, title: string, text: string) => {
-  if (isGoogle) {
+  if (op.google) {
     return getPer('link', text)
   }
   return `<d>${href}, ${title}, ${text}</d>`
@@ -90,7 +96,12 @@ export const mdToSsml = (markdown: string, title?: string, description?: string,
 <break time="2s" />
 <p>${description}</p><break time="2s" />\n`
 
-  const xml = `<speak>${openning}${parsed}</speak>`
+  let bgmCloser = ''
+  if (op.google) {
+    bgmCloser = bgmM.getBgmCloser()
+  }
+
+  const xml = `<speak>${openning}${parsed}${bgmCloser}</speak>`
   // console.log(xml)
 
   var formattedXml = format(xml);

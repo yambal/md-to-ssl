@@ -13,18 +13,22 @@ const theme_1 = require("./theme");
  * @param description
  */
 exports.mdToSsml = (markdown, title, description, options = {}) => {
-    const { google: isGoogle = false } = options;
+    const op = Object.assign({
+        google: false
+    }, options);
     const renderer = new marked_1.default.Renderer();
+    const bgmM = theme_1.bgmManager();
     renderer.heading = (text, level, raw, slug) => {
-        if (isGoogle) {
+        if (op.google) {
             // @ts-ignore: Unreachable code error
-            return theme_1.getPer(`h${level}`, text);
+            // return getPer(`h${level}`, text)
+            return bgmM.header(level, text);
         }
         return `<emphasis level="strong">${text}</emphasis><break time="1.5s" />`;
     };
     // Blockquote
     renderer.blockquote = (text) => {
-        if (isGoogle) {
+        if (op.google) {
             return theme_1.getPer('blockquote', text);
         }
         return `<p><prosody rate="slow">${text}</prosody></p><break time="2s" />\n`;
@@ -35,7 +39,7 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     // hr
     renderer.hr = () => {
-        if (isGoogle) {
+        if (op.google) {
             return theme_1.getPer('hr');
         }
         return `<break time="3s" />\n`;
@@ -45,7 +49,7 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
         return `<p>${body}</p>`;
     };
     renderer.listitem = (text) => {
-        if (isGoogle) {
+        if (op.google) {
             return theme_1.getPer('listitem', text);
         }
         return `<p>${text}</p>`;
@@ -68,7 +72,7 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
     };
     */
     renderer.link = (href, title, text) => {
-        if (isGoogle) {
+        if (op.google) {
             return theme_1.getPer('link', text);
         }
         return `<d>${href}, ${title}, ${text}</d>`;
@@ -80,7 +84,11 @@ exports.mdToSsml = (markdown, title, description, options = {}) => {
 </emphasis>
 <break time="2s" />
 <p>${description}</p><break time="2s" />\n`;
-    const xml = `<speak>${openning}${parsed}</speak>`;
+    let bgmCloser = '';
+    if (op.google) {
+        bgmCloser = bgmM.getBgmCloser();
+    }
+    const xml = `<speak>${openning}${parsed}${bgmCloser}</speak>`;
     // console.log(xml)
     var formattedXml = xml_formatter_1.default(xml);
     return formattedXml;

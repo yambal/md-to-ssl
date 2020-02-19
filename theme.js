@@ -196,3 +196,27 @@ exports.getPer = (elementName, content, themeName) => {
     }
     return content ? `<p>${content}</p>` : '';
 };
+exports.bgmManager = () => {
+    let currentId;
+    const bgmCloser = () => {
+        return `</media><media begin="-1s" end="h${currentId}.end+2d" fadeOutDur="3s"><audio src="${selib_1.SeLib.windytown}"/></media></par>`;
+    };
+    return {
+        header: (level, text) => {
+            let bgmBeforeCloser = '';
+            if (currentId) {
+                bgmBeforeCloser = bgmCloser();
+            }
+            currentId = makeId();
+            // @ts-ignore: Unreachable code error
+            const content = `${exports.getPer(`h${level}`, text)}<par><media xml:id="h${currentId}">`;
+            return `${bgmBeforeCloser}${content}`;
+        },
+        getBgmCloser: () => {
+            if (currentId) {
+                return bgmCloser();
+            }
+            return '';
+        }
+    };
+};
